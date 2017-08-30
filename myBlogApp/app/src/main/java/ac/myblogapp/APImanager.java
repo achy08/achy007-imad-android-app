@@ -2,6 +2,8 @@ package ac.myblogapp;
 
 import com.google.gson.Gson;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -21,6 +23,9 @@ public class APImanager {
 
         //Create Client
         OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(1, TimeUnit.MINUTES)
+                .writeTimeout(1, TimeUnit.MINUTES)
                 .addInterceptor(jenson)
                 .build();
 

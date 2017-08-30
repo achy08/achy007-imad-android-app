@@ -11,6 +11,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+
+import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class AuthenticationActivity extends AppCompatActivity {
 
     EditText username, password;
@@ -31,6 +40,8 @@ public class AuthenticationActivity extends AppCompatActivity {
                 if (isFormValid()){
                     //perform login
                     login();
+                    username.setText("");
+                    password.setText("");
                 }
             }
         });
@@ -43,6 +54,8 @@ public class AuthenticationActivity extends AppCompatActivity {
                 if(isFormValid()){
                     // perform register
                     register();
+                    username.setText("");
+                    password.setText("");
                 }
             }
         });
@@ -68,10 +81,75 @@ public class AuthenticationActivity extends AppCompatActivity {
 
 
     private void register() {
+        showProgressDialog(true);
+        APImanager.getApiInterface().registration(new AuthenticationRequest (username.getText().toString().trim(),password.getText().toString().trim()))
+                .enqueue(new Callback<MessageResponse>() {
+                    @Override
+                    public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                        showProgressDialog(false);
+                        if(response.isSuccessful()){
+                            showAlert("Welcome", response.body().getMessage());
+                        } else {
+                            try {
+                                String errorMessage = response.errorBody().string();
+                                try{
+                                    ErrorResponse errorResponse = new Gson().fromJson(errorMessage, ErrorResponse.class);
+                                } catch (JsonSyntaxException jsonException){
+                                    jsonException.printStackTrace();
+                                    showAlert("Disaster", "Something is not right");
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                showAlert("Disaster", "Something is not right");
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<MessageResponse> call, Throwable t) {
+                        showProgressDialog(false);
+                        showAlert("Disaster", "Something is not right");
+                    }
+                });
     }
 
     private void login() {
-        new loginTask().execute(username.getText().toString(), password.getText().toString());
+        //Use code below when conducting mock up
+        //new loginTask().execute(username.getText().toString(), password.getText().toString());
+        showProgressDialog(true);
+        APImanager.getApiInterface().login(new AuthenticationRequest (username.getText().toString().trim(),password.getText().toString().trim()))
+                .enqueue(new Callback<MessageResponse>() {
+                    @Override
+                    public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                        showProgressDialog(false);
+                        if(response.isSuccessful()){
+                            showAlert("Welcome", response.body().getMessage());
+                        } else {
+                            try {
+                                String errorMessage = response.errorBody().string();
+                                try{
+                                    ErrorResponse errorResponse = new Gson().fromJson(errorMessage, ErrorResponse.class);
+                                    showAlert("OH NO", errorResponse.getError());
+                                } catch (JsonSyntaxException jsonException){
+                                    jsonException.printStackTrace();
+                                    showAlert("Disaster", "Something is not right");
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                showAlert("Disaster", "Something is not right");
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<MessageResponse> call, Throwable t) {
+                        showProgressDialog(false);
+                        showAlert("Disaster", "Something is not right");
+                    }
+                });
+
     }
 
     private void showProgressDialog(Boolean shouldShould){
