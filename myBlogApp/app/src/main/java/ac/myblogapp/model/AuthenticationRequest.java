@@ -1,4 +1,4 @@
-package ac.myblogapp;
+package ac.myblogapp.model;
 
 import com.google.gson.annotations.SerializedName;
 

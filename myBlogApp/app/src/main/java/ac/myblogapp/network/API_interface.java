@@ -1,7 +1,13 @@
-package ac.myblogapp;
+package ac.myblogapp.network;
 
+import java.util.List;
+
+import ac.myblogapp.model.AuthenticationRequest;
+import ac.myblogapp.model.BlogEntry;
+import ac.myblogapp.model.MessageResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 /**
@@ -15,4 +21,10 @@ public interface API_interface {
 
     @POST(NetworkURL.REGISTRATION)
     Call<MessageResponse> registration(@Body AuthenticationRequest body);
+
+    @GET(NetworkURL.GET_ARTICLE)
+    Call<List<BlogEntry>> getBlog();
+
+    @GET(NetworkURL.ARTICLE_DETAIL)
+    Call<List<BlogEntry>> getBlogDetail();
 }

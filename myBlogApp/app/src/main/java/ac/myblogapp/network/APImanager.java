@@ -1,6 +1,4 @@
-package ac.myblogapp;
-
-import com.google.gson.Gson;
+package ac.myblogapp.network;
 
 import java.util.concurrent.TimeUnit;
 

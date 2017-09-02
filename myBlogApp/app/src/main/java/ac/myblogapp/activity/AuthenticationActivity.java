@@ -1,4 +1,4 @@
-package ac.myblogapp;
+package ac.myblogapp.activity;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -17,6 +17,11 @@ import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;
 
+import ac.myblogapp.R;
+import ac.myblogapp.model.AuthenticationRequest;
+import ac.myblogapp.model.ErrorResponse;
+import ac.myblogapp.model.MessageResponse;
+import ac.myblogapp.network.APImanager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -83,7 +88,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     private void register() {
         showProgressDialog(true);
-        APImanager.getApiInterface().registration(new AuthenticationRequest (username.getText().toString().trim(),password.getText().toString().trim()))
+        APImanager.getApiInterface().registration(new AuthenticationRequest(username.getText().toString().trim(),password.getText().toString().trim()))
                 .enqueue(new Callback<MessageResponse>() {
                     @Override
                     public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
@@ -210,7 +215,7 @@ public class AuthenticationActivity extends AppCompatActivity {
     }
 
     private void navigateToListActivity(){
-        Intent intent = new Intent(this, BlogListActivity.class);
+        Intent intent = new Intent(this, BlogEntryListActivity.class);
         startActivity(intent);
 
     }
