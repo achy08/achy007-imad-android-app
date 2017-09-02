@@ -2,6 +2,7 @@ package ac.myblogapp;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -125,6 +126,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                         showProgressDialog(false);
                         if(response.isSuccessful()){
                             showAlert("Welcome", response.body().getMessage());
+                            navigateToListActivity();
                         } else {
                             try {
                                 String errorMessage = response.errorBody().string();
@@ -205,5 +207,11 @@ public class AuthenticationActivity extends AppCompatActivity {
             }
             return username.contentEquals(mockUser)&& password.contentEquals(mockPass);
         }
+    }
+
+    private void navigateToListActivity(){
+        Intent intent = new Intent(this, BlogListActivity.class);
+        startActivity(intent);
+
     }
 }
