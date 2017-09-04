@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.BlogEntryListActivity" />
-        <activity android:name=".activity.BlogEntryDetailActivity"></activity>
+        <activity android:name=".activity.BlogEntryDetailActivity" />
+        <activity android:name=".activity.BaseActivity"></activity>
     </application>
 
 </manifest>

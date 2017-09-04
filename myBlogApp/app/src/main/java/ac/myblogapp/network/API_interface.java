@@ -25,6 +25,6 @@ public interface API_interface {
     @GET(NetworkURL.GET_ARTICLE)
     Call<List<BlogEntry>> getBlog();
 
-    @GET(NetworkURL.ARTICLE_DETAIL)
-    Call<List<BlogEntry>> getBlogDetail();
+    @GET(NetworkURL.LOGOUT)
+    Call<Void> logout();
 }

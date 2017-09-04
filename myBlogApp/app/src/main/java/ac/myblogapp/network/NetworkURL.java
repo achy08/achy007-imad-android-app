@@ -12,7 +12,5 @@ public class NetworkURL {
     public static final String LOGIN = "login";
     public static final String REGISTRATION = "new-user";
     public static final String GET_ARTICLE = "get-articles";
-
-    //Todo: Find way to navigate to Article detail page
-    public static final String ARTICLE_DETAIL = "article/:articleName";
+    public static final String LOGOUT = "logout";
 }
