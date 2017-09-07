@@ -65,6 +65,13 @@ app.post('/new-user', function(req,res){
     });
 });
 
+app.post('/new-article', function(req,res){
+	var title = req.body.title
+	var author = req.body.user
+	var date = req.body.date
+	var content = req.body.content
+	pool.query('INSERT INTO "articles"(title, author, date, content) VALUES ($1, $2, $3, $4)',
+
 app.post('/login', function(req, res){
     var username = req.body.username;
     var password = req.body.password;
@@ -124,34 +131,6 @@ app.get('/get-articles', function(req, res){
           res.send(JSON.stringify(result.rows));
       }
    });
-});
-
-var counter = 0;
-app.get('/counter', function(req, res){
-  counter += 1;
-  res.send(counter.toString());
-});
-
-app.get('/article/:articleName', function (req,res){
-    //articleName == article-one
-    //articles[articleName] == {} content object for article-one
-    //use query below so that hackers cannot inject SQL
-    pool.query("SELECT * FROM articles WHERE title = $1", [req.params.articleName], function(err,result){
-        if(err){
-            res.status(500).send(err.toString());
-        } else {
-            if(result.rows.length === 0){
-                res.status(404).send('Article not found')
-            } else{
-                var articleData = result.rows[0];
-                res.setHeader('Content-Type', 'application/json');	
-                res.send(JSON.stringify(articleData));
-
-            }
-        }
-    });
-    
-    
 });
 
 // Do not change port, otherwise your app won't run on IMAD servers
